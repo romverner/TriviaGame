@@ -7,7 +7,7 @@ var intervalId;
 
 var game = {
 
-    timeRemain: 5,
+    timeRemain: 20,
     answered: false,
     nextSwitch: false,
     gameSwitch: false,
@@ -157,7 +157,7 @@ var game = {
     },
 
     nextQuestion: function() {
-        game.timeRemain = 30;
+        game.timeRemain = 20;
         game.answered = false;
         game.nextSwitch = false;
         game.questionFill();
@@ -202,7 +202,7 @@ var game = {
     },
 
     restartGame: function() {
-        game.timeRemain = 30;
+        game.timeRemain = 20;
         game.answered = false;
         game.nextSwitch = false;
         game.questionCount = 0;
