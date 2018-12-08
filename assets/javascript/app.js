@@ -1,7 +1,6 @@
 $(document).ready(function(){
     game.buttonMaker('Start', 'start', 'btn btn-primary');
     $("#start").on("click", game.run);
-    $(".next").on("click", game.nextQuestion);
 });
 
 var intervalId;
@@ -11,6 +10,7 @@ var game = {
     timeRemain: 5,
     answered: false,
     nextSwitch: false,
+    gameSwitch: false,
     questionCount: 0,
     correct: 0,
     incorrect: 0,
@@ -52,6 +52,7 @@ var game = {
             game.nextSwitch = false;
         };
         $(".next").on("click", game.nextQuestion);
+        $(".restart").on("click", game.restartGame);
     },
 
     continueRun: function() {
@@ -86,26 +87,34 @@ var game = {
         var localValue = $(this).attr('value');
         console.log(localValue);
 
-        if (game.questionCount == 5) {
-            game.gameOver();
-            game.stop();
-        };
-
         if (localValue == game.questionsAnswers[game.questionCount].correctAnswer && game.answered === false) {
             game.correct++;
             game.questionCount++;
             console.log("Correct");
             game.answered = true;
-            game.correctMessage();
+
+            if (game.questionCount == 5) {
+                game.gameOver();
+            }
+
+            else {
+                game.correctMessage();
+                game.nextSwitch = true;
+            };            
         }
         else if (localValue !== game.questionsAnswers[game.questionCount].correctAnswer && game.answered === false) {
             game.incorrectMessage();
             game.incorrect++;
             game.questionCount++;
+
+            if (game.questionCount == 5) {
+                game.gameOver();
+            };
+
             console.log("Incorrect");
             game.answered = true;
+            game.nextSwitch = true;
         };
-        game.nextSwitch = true;
         game.run();
     },
 
@@ -132,6 +141,7 @@ var game = {
         buttonMade.attr('id', desiredId);
         buttonMade.attr('class', desiredClass);
         $("#sp-3").append(buttonMade);
+        $("#sp-3").append("<br>");
     },
 
     questionFill: function() {
@@ -142,7 +152,7 @@ var game = {
     answerFill: function() {
         $("#sp-3").empty();
         for (i = 0; i < 4; i++) {
-            game.buttonMaker(game.questionsAnswers[game.questionCount].options[i], 'answers', 'btn btn-primary answers', i);
+            game.buttonMaker(game.questionsAnswers[game.questionCount].options[i], 'answers', 'btn btn-primary answers mt-3', i);
         };
     },
 
@@ -171,6 +181,8 @@ var game = {
     },
 
     gameOver: function() {
+        game.stop();
+        
         $("#sp-1, #sp-2, #sp-3").empty();
         $("#sp-1").text("Game over! Here are your results!");
         $("#sp-2").text("Here are your results!");
@@ -182,8 +194,23 @@ var game = {
         $("#sp-3").append(correctResult + incorrectResult + missedResult);
         $("#sp-3").append("<br>Try again?<br>");
         
-        var restartButton = game.buttonMaker('Restart', 'restart', 'restart btn btn-primary');
+        var restartButton = game.buttonMaker('Restart', 'restart', 'restart btn btn-primary mt-3');
         $("#sp-3").append(restartButton);
+
+        game.gameSwitch = true;
+        game.run();
+    },
+
+    restartGame: function() {
+        game.timeRemain = 30;
+        game.answered = false;
+        game.nextSwitch = false;
+        game.questionCount = 0;
+        game.correct = 0;
+        game.incorrect = 0;
+        game.unAnswered = 0;
+
+        game.run();
     }
 };
 
