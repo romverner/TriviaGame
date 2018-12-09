@@ -121,6 +121,7 @@ var game = {
     correctMessage: function() {
         $("#sp-1, #sp-2, #sp-3").empty();
         $("#sp-1").html("<h5>Correct!</h5>");
+        $("#sp-2").html("<br><img src='https://media2.giphy.com/media/l3mZnyUWFRyEjibWE/giphy.gif?cid=3640f6095c0c4c36692f77376fc8ab52' class='img-fluid rounded' alt='janet funny'>");
     },
 
     incorrectMessage: function() {
@@ -128,6 +129,7 @@ var game = {
         $("#sp-1").html("<h5>Incorrect!</h5>");
         $("#sp-2").html("<h5>The correct answer was:</h5>");
         $("#sp-3").html("<h5>" + game.questionsAnswers[game.questionCount].options[game.questionsAnswers[game.questionCount].correctAnswer] + "</h5>");
+        $("#sp-3").append("<br><img src='https://media0.giphy.com/media/1wXeOYCLeYm0YrYP3N/giphy.gif?cid=3640f6095c0c4cb66a654478457b78df' class='img-fluid rounded mb-3'alt='shake head'>");
     },
     
     timerDisplay: function() {
@@ -174,6 +176,7 @@ var game = {
         $("#sp-2, #sp-3").empty();
         $("#sp-2").html("<h5>Timed out. The correct answer was:</h5>");
         $("#sp-3").html("<h5>" + game.questionsAnswers[game.questionCount].options[game.questionsAnswers[game.questionCount].correctAnswer] + "</h5>");
+        $("#sp-3").append("<img src='https://media1.giphy.com/media/3oxHQBUlter159YC2s/giphy.gif?cid=3640f6095c0c4c6a4e42684441f3cadf' class='img-fluid rounded mb-3' alt='janet button'><br>")
         game.questionCount++;
         game.unAnswered++;
         game.nextSwitch = true;
